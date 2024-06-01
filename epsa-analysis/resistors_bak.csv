@@ -1,0 +1,5 @@
+﻿Ref Des;RES; Value (Ohm);Power Rating (W);Vmax Applied (V);Baseplate Temp (*C);Thermal Resistivity (*C/W);Maximum Rated Voltage (V); Pulsed?;Vmax Pulsed Applied (V);Rated Power Temp (*C);Zero Power Temp (*C); Notes
+R7;102941;39.2;100m;3.465;65;30;50;No;;70;155;
+R21;101964;47;100m;3.465;65;30;50;;;70;155;
+R22;100052;10k;100m;3.465;65;30;50;;;70;155;
+R23;100153;4.7k;200m;3.465;65;30;50;;;70;155;

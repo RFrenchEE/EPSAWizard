@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/arrow_left.svg</file>
+        <file>icons/arrow_right.svg</file>
+        <file>icons/book.svg</file>
+        <file>icons/capacitor.svg</file>
+        <file>icons/check.svg</file>
+        <file>icons/chevron_left.svg</file>
+        <file>icons/chevron_right.svg</file>
+        <file>icons/cog.svg</file>
+        <file>icons/epsa_wizard.svg</file>
+        <file>icons/exclamation_circle.svg</file>
+        <file>icons/file.svg</file>
+        <file>icons/file_csv.svg</file>
+        <file>icons/file_export.svg</file>
+        <file>icons/file_import.svg</file>
+        <file>icons/file_lines.svg</file>
+        <file>icons/file_new.svg</file>
+        <file>icons/file_pdf.svg</file>
+        <file>icons/file_pen.svg</file>
+        <file>icons/folder_open.svg</file>
+        <file>icons/heart.svg</file>
+        <file>icons/inductor.svg</file>
+        <file>icons/info_circle.svg</file>
+        <file>icons/minus.svg</file>
+        <file>icons/plus.svg</file>
+        <file>icons/resistor.svg</file>
+        <file>icons/rotate.svg</file>
+        <file>icons/settings.svg</file>
+        <file>icons/x.svg</file>
+        <file>icons/x_circle.svg</file>
+        <file>icons/caret_left.svg</file>
+        <file>icons/caret_right.svg</file>
+        <file>icons/trash_bin.svg</file>
+    </qresource>
+    <qresource prefix="/StyleSheets">
+        <file>VisualScript.qss</file>
+        <file>epsa_wizard.qss</file>
+    </qresource>
+</RCC>

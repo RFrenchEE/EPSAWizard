@@ -1,0 +1,6 @@
+Ref Des	RES	 Value (Ohm)	Power Rating (W)	Vmax Applied (V)	Baseplate Temp (*C)	Thermal Resistivity (*C/W)	Maximum Rated Voltage (V)	 Pulsed?	Vmax Pulsed Applied (V)	Rated Power Temp (*C)	Zero Power Temp (*C)	 Notes
+R23	102200	4.99M	0.0625	0.6	65		50	No		70	155	GND/CHGND tie resistor. Vmax applied estimated.
+R49	100289	20.3k	0.1	2.31	65		50	No		70	155	SMPS Top FB R.
+R_2k1	100047	2k	0.1	0.25	65		50	No		70	155	Diode Avg resistor 1 (pre-diode)
+R_2k2	100047	2k	0.1	0.25	65		50	No		70	155	Diode Avg resistor 2 (post-diode)
+R_Stub	100054	100	0.1	1.65	65		50	No		70	155	Stub-series resistors. Active only when MISO is active.

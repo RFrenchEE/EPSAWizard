@@ -1,0 +1,30 @@
+2024-05-16 17:45:07,215 - DEBUG - <module> - MainThread
+	-> Imported resistors.py
+2024-05-16 17:45:07,221 - DEBUG - <module> - MainThread
+	-> Entering __main__
+2024-05-16 17:45:07,249 - DEBUG - __init__ - MainThread
+	-> Instantiating MainWindow
+2024-05-16 17:45:07,250 - INFO - _setup_constants - MainThread
+	-> Setting up constants (icons, etc.)
+2024-05-16 17:45:07,258 - INFO - _setup_ui - MainThread
+	-> Setting up the UI
+2024-05-16 17:45:07,258 - INFO - _load_settings - MainThread
+	-> Load settings called
+2024-05-16 17:45:07,261 - INFO - _actions_setup - MainThread
+	-> Setting up actions
+2024-05-16 17:45:07,262 - INFO - _menubar_setup - MainThread
+	-> Setting up menubar
+2024-05-16 17:45:07,289 - INFO - _add_widgets_to_layout - MainThread
+	-> Adding widgets to layout
+2024-05-16 17:45:07,290 - INFO - _add_gui_details - MainThread
+	-> Adding GUI details
+2024-05-16 17:45:10,285 - INFO - closeEvent - MainThread
+	-> closeEvent event called
+2024-05-16 17:45:10,286 - INFO - _save_settings - MainThread
+	-> Save settings called
+2024-05-16 17:45:10,287 - INFO - _slot_exit - MainThread
+	-> Exit action triggered
+2024-05-16 17:45:10,287 - INFO - _save_settings - MainThread
+	-> Save settings called
+2024-05-16 17:45:11,812 - INFO - _save_settings - MainThread
+	-> Save settings called

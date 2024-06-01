@@ -1,0 +1,239 @@
+\documentclass[12pt]{article}
+
+\usepackage{geometry}
+\geometry{
+    top=2cm,
+    left=2cm,
+    right=2cm
+}
+
+% Alter how section titles look
+\usepackage{titlesec}
+\titleformat{\section}{\bfseries\large}{\thesection)}{0.3em}{}
+\titleformat{\subsection}{\bfseries\Large}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1cm}{0.5cm}
+\titlespacing*{\subsection}{0pt}{1cm}{0.25cm}
+\titlespacing*{\subsubsection}{0cm}{0.25cm}{0.25cm}
+
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+
+% Set up smart quotes (no using `` and ")
+\usepackage{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{amsmath} % Required for some math elements 
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{color}
+\usepackage{unicode-math}
+\usepackage{textcomp}
+\usepackage{colortbl}
+\usepackage{svg}
+\usepackage{stackengine} % Stackable text
+
+\usepackage{fontspec}
+\setmainfont{Times New Roman} % Times New Roman for font
+
+\begin{document}
+\pagenumbering{gobble}
+
+\begin{center}
+    \huge{\textbf{\underline{EPSA Analysis Script v. 1.02 README}}}
+\end{center}
+
+This script calculates derated values based on EEE-INST-002 and reports the results based on user inputs.
+
+\section{General Information}
+This Python script requires several CSV files, one for each type of component. The CSVs must be formatted with a semicolon separation. The full list of CSV files necessary to analyze are:
+
+\begin{itemize}
+    \item resistors.csv
+    \item capacitors.csv
+    \item inductors.csv
+\end{itemize}
+
+These CSV files must be located in the same directory as this script. These files must exist with headers, but the data fields can be empty.
+
+All value fields in the CSV file can contain SI suffixes. For example, a 1.2 kΩ resistor's value can be written as "1.2k" or "1200".
+
+After the script is run, an Excel file (default filename "EPSA-Results.xlsx") is created in the same directory as this script.
+
+\section{Configuring the Script}
+To alter any constants for the script, edit \textit{config.ini} in any text editor. A list of the constants that can be altered are:
+
+\begin{itemize}
+    \item \textbf{PROJECT\_NAME:} The name of the project [text]
+    \item \textbf{BOARD\_NAME:} The name of the board [text]
+    \item \textbf{PCB\_RES:} Redwire part number of the PCB [integer]
+    \item \textbf{PCB\_REV:} Revision of the PCB [integer/letter]
+    \item \textbf{PCA\_RES:} Redwire part number of the PCA [integer]
+    \item \textbf{PCA\_REV:} Revision of the PCA [integer/letter]
+    \item \textbf{DEBUG:} Debug mode. Includes optional debugging information. [True/False]
+    \item \textbf{EXCEL\_FILENAME:} The name of the output Excel file. Must contain ".xlsx" file extension [text]
+    \item \textbf{RESISTOR\_CSV\_FILENAME:} The name of the input Resistors CSV file. Must contain ".csv" file extension [text]
+    \item \textbf{CAPACITOR\_CSV\_FILENAME:} The name of the input Capacitors CSV file. Must contain ".csv" file extension [text]
+    \item \textbf{INDUCTOR\_CSV\_FILENAME:} The name of the input Inductors CSV file. Must contain ".csv" file extension [text]
+    \item \textbf{R\_V\_DERATE*:} Voltage derating factor for resistors. Default is 0.8. [float]
+    \item \textbf{R\_P\_DERATE*:} Power derating factor for resistors. Default is 0.6. [float]
+    \item \textbf{R\_P\_PULSE\_DERATE*:} Pulsed power derating factor for resistors. Default is 3.125. [float]
+    \item \textbf{C\_V\_DERATE*:} Voltage derating factor for capacitors. Default is 0.6. [float]
+    \item \textbf{C\_DEFAULT\_ESR:} Default ESR value (in Ω) for capacitors. Used for capacitors that don't have ESR quoted in the datasheet. Default is 0.05. [float]
+    \item \textbf{C\_DEFAULT\_IRIPPLE:} Default Iripple rating (in A) for capacitors. Used for capacitors that don't have Iripple rating quoted in datasheet. Default is 1.0. [float]
+    \item \textbf{C\_MAX\_AMB\_TEMP*:} Maximum ambient temperature (in °C) for capacitors. Default is 110.0. [float]
+    \item \textbf{C\_DEFAULT\_THETA:} Default thermal resistivity for capacitors. Used for capacitors that don't have θ quoted in the datasheet. Default is 30.0. [float]
+    \item \textbf{L\_TEMP\_DERATE*:} Temperature derating factor for inductors. Default is 20.0. [float]
+    \item \textbf{L\_V\_DERATE*:} Voltage derating factor for inductors. Default is 0.5. [float]
+\end{itemize}
+
+{\footnotesize
+*These are EEE-INST-002 values. Alter them at your own risk.
+}
+
+
+\section{Overview Sheet}
+Once all of the EPSA deratings are done, the script generates a sheet in the Excel document named "Overview". This sheet contains the project and board information, as well as a table containing information about:
+
+\begin{itemize}
+    \item Component type and number analyzed
+    \item Number of passing parts, broken down into overall and individual EPSA calculations
+\end{itemize}
+
+
+\section{Resistors}
+This script reads the resistors.csv file runs an EPSA analysis based on the column fields. Currently, the script can only do derating for the following types of resistors: G311P672 (Fixed, High Voltage), G311P683 (Fixed, Precision, High Voltage), G311P742 (Fixed, Low TC, Precision), RNX (Fixed, Film, ER), RM (Fixed, Film, Chip, ER), and RZ (Fixed, Film, Networks).
+
+The following headers must be present in the resistors.csv file, in order:
+
+\begin{enumerate}
+    \item \textbf{Ref Des:} The reference designator of the resistor
+    \item \textbf{RES:} The Redwire Part Number of the resistor
+    \item \textbf{Value:} Resistance [Ω]
+    \item \textbf{Power Rating:} The power rating of the resistor [W]
+    \item \textbf{Vmax Applied:} The maximum ΔV applied to the resistor in-circuit [V]
+    \item \textbf{Baseplate Temp:} The PCB baseplate temperature [°C]
+    \item \textbf{Thermal Resistivity*:} Thermal resistivity (Θ) of the resistor [\(\frac{°C}{W}\)]
+    \item \textbf{Maximum Rated Voltage*:} Absolute maximum ΔV that can be applied to the resistor [V]
+    \item \textbf{Pulsed?:} Is this resistor pulsed? [Yes/No/True/False]
+    \item \textbf{Vmax Pulsed Applied:} The maximum pulsed ΔV applied to the resistor in-circuit [V]
+    \item \textbf{Rated Power Temp*:} The rated temperature of the resistor (also referred to as T1) [°C]
+    \item \textbf{Zero Power Temp*:} The zero-point temperature of the resistor (also referred to as T3) [°C]
+    \item \textbf{Notes:} Any notes to be included with this resistor. [Any text**]
+\end{enumerate}
+
+{\footnotesize
+*Can be found in the datasheet\\
+**This text cannot contain a semicolon - this will break the CSV parsing
+}
+
+A sheet named "Resistors" is created in the Excel output with the all of the previously-mentioned columns, with the following columns added:
+
+\begin{itemize}
+    \item \textbf{Temp Rise:} The temperature rise of the resistor [°C]
+    \item \textbf{Operating Temp:} The baseplate temperature + temp rise [°C]
+    \item \textbf{Derated Power:} The derated power rating of the resistor. If linear derating from T1 is necessary, this reports the minimum between the \textit{Power Derating Value * Power Rating} and the linear derating value. [W]
+    \item \textbf{Applied Power:} The calculated power (\(\frac{V_{applied}^2}{R}\)) [W]
+    \item \textbf{Derated Max V:} The derated maximum voltage rating. Takes the minimum between the \textit{Voltage Derating Value * Maximum Rated Voltage} and the derated maximum voltage (\(\sqrt{P_{derated} ⋅ R}\)) [V]
+    \item \textbf{Derated Zero-Point Temp (T2):} The derated zero-point temperature [°C]
+    \item \textbf{V Pass:} A field noting if the resistor passed EPSA voltage derating [True/False]
+    \item \textbf{V Headroom:} How much headroom there is between the applied voltage and the derated maximum voltage. Negative values appear if the resistor failed EPSA voltage derating. [V]
+    \item \textbf{P Pass:} A field noting if the resistor passed EPSA power derating [True/False]
+    \item \textbf{P Headroom:} How much headroom there is between the applied power and the derated maximum power. Negative values appear if the resistor failed EPSA power derating. [W]
+    \item \textbf{T Pass:} A field noting if the resistor passed EPSA temperature derating [True/False]
+    \item \textbf{T Headroom:} How much headroom there is between the resistor's temperature and the derated maximum temperature. Negative values appear if the resistor failed EPSA temperature derating. [°C]
+    \item \textbf{Overall Pass:} A field noting if the resistor passed all EPSA deratings [True/False]
+\end{itemize}
+
+All "Pass" columns have highlighting, with passing values in green and failing values in red for ease-of-reading. In addition, the "Notes" column will contain notes about what happened during analysis, including if linear derating was necessary.
+
+
+\section{Capacitors}
+This script reads the capcitors.csv file runs an EPSA analysis based on the column fields. Currently, the script can only do derating for the following types of capacitors: Ceramic (Military Styles CCR, CKS, CKR, and CDR).
+
+The following headers must be present in the capacitors.csv file, in order:
+
+\begin{enumerate}
+    \item \textbf{Ref Des:} The reference designator of the capacitor
+    \item \textbf{RES:} The Redwire Part Number of the capacitor
+    \item \textbf{Value:} Capacitance [F]
+    \item \textbf{Voltage Rating*:} The power rating of the capacitor [V]
+    \item \textbf{Vmax Applied:} The maximum ΔV applied to the capacitor in-circuit [V]
+    \item \textbf{Baseplate Temp:} The PCB baseplate temperature [°C]
+    \item \textbf{Thermal Resistivity**:} Thermal resistivity (Θ) of the capacitor. If left blank, default is used. [\(\frac{°C}{W}\)]
+    \item \textbf{Max Temp Rating*:} The maximum temperature rating of the capacitor [°C] 
+    \item \textbf{Vripple?:} Is ripple voltage present on this capacitor? [Yes/No/True/False]
+    \item \textbf{Max Vripple Applied:} The maximum ripple voltage applied to the capacitor in-circuit [V]
+    \item \textbf{Iripple?:} Is ripple current present on this capacitor? [Yes/No/True/False]
+    \item \textbf{Max Iripple Applied:} The maximum ripple current applied to the capacitor in-circuit [A]
+    \item \textbf{Iripple Rating**:} The rated ripple current of the capacitor. If left blank, default is used. [A]
+    \item \textbf{ESR**:} The equivalent series resistance of the capacitor. If left blank, default is used. [Ω]
+    \item \textbf{Notes:} Any notes to be included with this capacitor. [Any text***]
+\end{enumerate}
+
+{\footnotesize
+*Can be found in the datasheet\\
+**This may be in the datasheet. If not, the default value from config.ini will be used.\\
+***This text cannot contain a semicolon - this will break the CSV parsing
+}
+
+A sheet named "Capacitors" is created in the Excel output with the all of the previously-mentioned columns, with the following columns added:
+
+\begin{itemize}
+    \item \textbf{Max V Applied (w/ Ripple):} The DC voltage + ripple voltage [V] 
+    \item \textbf{Operating Temp:} The baseplate temperature + temp rise [°C]
+    \item \textbf{Derated V Rating:} The derated voltage rating of the capacitor. [V]
+    \item \textbf{Dissipated Power:} The power dissipated by the capacitor. Derived from either \(I^2 ⋅ ESR\) or \(V^2/R\)
+    \item \textbf{Temp Rise:} The temperature rise of the capacitor due to dissipated power [°C]
+    \item \textbf{Operating Temp:} The operating temperature of the capacitor (T + ΔT) [°C]
+    \item \textbf{V Pass:} A field noting if the capacitor passed EPSA voltage derating [True/False]
+    \item \textbf{V Headroom:} How much headroom there is between the applied voltage and the derated maximum voltage. Negative values appear if the capacitor failed EPSA voltage derating. [V]
+    \item \textbf{T Pass:} A field noting if the capacitor passed EPSA temperature derating [True/False]
+    \item \textbf{T Headroom:} How much headroom there is between the capacitor's temperature and the derated maximum temperature. Negative values appear if the capacitor failed EPSA temperature derating. [°C]
+    \item \textbf{Overall Pass:} A field noting if the capacitor passed all EPSA deratings [True/False]
+\end{itemize}
+
+All "Pass" columns have highlighting, with passing values in green and failing values in red for ease-of-reading. In addition, the "Notes" column will contain notes about what happened during analysis.
+
+
+\section{Inductors}
+This script reads the inductors.csv file runs an EPSA analysis based on the column fields. Currently, the script can only do derating for the following types of inductors: Insulation class MIL-PRF-27 Q, R, and S; insulation class MIL-PRF-39010 A, B, C, and F; and insulation class MIL-PRF-15305/MIL-T-55631 O, A, B, and C.
+
+The following headers must be present in the inductors.csv file, in order:
+
+\begin{enumerate}
+    \item \textbf{Ref Des:} The reference designator of the inductor
+    \item \textbf{RES:} The Redwire Part Number of the inductor
+    \item \textbf{Value:} Inductance [H]
+    \item \textbf{Max In-Circuit Voltage:} The maximum ΔV applied to the inductor in-circuit [V]
+    \item \textbf{Dielectric Withstanding Voltage**:} Dielectric withstanding voltage of the inductor [V]
+    \item \textbf{Max Operating Temp*:} The maximum operating temperature rating of the inductor [°C] 
+    \item \textbf{Operating Temp Already Derated?:} Is the Max Operating Temp value already derated by the manufacturer? [Yes/No/True/False]
+    \item \textbf{Max In-Circuit Temp:} The maximum in-circuit temperature of the inductor [°C] 
+    \item \textbf{Notes:} Any notes to be included with this inductor. [Any text***]
+\end{enumerate}
+
+{\footnotesize
+*Can be found in the datasheet\\
+**This may be in the datasheet. If not, contact the manufacturer for this value.\\
+***This text cannot contain a semicolon - this will break the CSV parsing
+}
+
+A sheet named "Inductors" is created in the Excel output with the all of the previously-mentioned columns, with the following columns added:
+
+\begin{itemize}
+    \item \textbf{Derated Vmax:} The derated maximum voltage rating of the inductor. [V]
+    \item \textbf{Derated Operating Temp:} The derated operating temperature of the inductor [°C]
+    \item \textbf{V Pass:} A field noting if the inductor passed EPSA voltage derating [True/False]
+    \item \textbf{V Headroom:} How much headroom there is between the applied voltage and the derated maximum voltage. Negative values appear if the inductor failed EPSA voltage derating. [V]
+    \item \textbf{T Pass:} A field noting if the inductor passed EPSA temperature derating [True/False]
+    \item \textbf{T Headroom:} How much headroom there is between the inductor's temperature and the derated maximum temperature. Negative values appear if the inductor failed EPSA temperature derating. [°C]
+    \item \textbf{Overall Pass:} A field noting if the inductor passed all EPSA deratings [True/False]
+\end{itemize}
+
+All "Pass" columns have highlighting, with passing values in green and failing values in red for ease-of-reading. In addition, the "Notes" column will contain notes about what happened during analysis.
+
+\end{document}

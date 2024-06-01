@@ -1,0 +1,4 @@
+﻿Ref Des;RES; Value (H);Max In-Circuit Voltage (V);Dielectric Withstanding Voltage (V);Max Operating Temp (*C);Operating Temp Already Derated?;Max In-Circuit Temp (*C);Notes
+L1;102898;22u;3.465;500;125;No;75;
+L2;101843;15u;34;500;105;Yes;85;
+L3;555555;;3.465;500;110;No;80;

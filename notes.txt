@@ -1,0 +1,3 @@
+new signals:
+_slot_tree_clicked
+_slot_tree_doubleclicked

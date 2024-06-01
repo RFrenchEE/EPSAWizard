@@ -1,0 +1,7 @@
+﻿Ref Des;RES;Value (Farad);Voltage Rating (V);Max V Applied (V);Baseplate Temp (*C);Thermal Resistivity (*C/W);Max Temp Rating (*C);Vripple?;Max Vripple Applied (V);Iripple?;Max Iripple Applied (A);Iripple Rating (A);ESR (Ohm);Notes
+C1;100757;10u;100;34;65;;125;;;;;;;
+C4;100101;2.2u;10;3.465;65;;125;;;;;;;
+C11;101836;22u;6.3;3.465;65;;125;;;;;;;
+C15;100101;2.2u;10;3.465;65;;125;;;;;;;
+C8;100032;0.1u;50;3.465;65;;125;;;;;;;
+C18;101834;100n;16;3.465;65;;125;;;;;;;
