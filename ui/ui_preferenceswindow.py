@@ -15,10 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QCheckBox, QComboBox,
-    QDialogButtonBox, QGroupBox, QLabel, QLineEdit,
-    QMainWindow, QScrollArea, QSizePolicy, QSpacerItem,
-    QStatusBar, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
+    QGroupBox, QHBoxLayout, QLabel, QLineEdit,
+    QMainWindow, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QStatusBar, QTabWidget, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -53,7 +54,7 @@ class Ui_MainWindow(object):
         self.scrollarea_application.setWidgetResizable(True)
         self.scrollwidget_application = QWidget()
         self.scrollwidget_application.setObjectName(u"scrollwidget_application")
-        self.scrollwidget_application.setGeometry(QRect(0, 0, 455, 326))
+        self.scrollwidget_application.setGeometry(QRect(0, -24, 455, 322))
         self.verticalLayout_5 = QVBoxLayout(self.scrollwidget_application)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(5, 5, 5, 5)
@@ -216,7 +217,7 @@ class Ui_MainWindow(object):
         self.scrollarea_user.setWidgetResizable(True)
         self.scrollwidget_user = QWidget()
         self.scrollwidget_user.setObjectName(u"scrollwidget_user")
-        self.scrollwidget_user.setGeometry(QRect(0, 0, 466, 315))
+        self.scrollwidget_user.setGeometry(QRect(0, 0, 466, 298))
         self.verticalLayout_3 = QVBoxLayout(self.scrollwidget_user)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.group_userinfo = QGroupBox(self.scrollwidget_user)
@@ -293,12 +294,43 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.tabwidget_preferences)
 
-        self.btnbox_main = QDialogButtonBox(self.centralwidget)
-        self.btnbox_main.setObjectName(u"btnbox_main")
-        self.btnbox_main.setStandardButtons(QDialogButtonBox.Apply|QDialogButtonBox.Cancel|QDialogButtonBox.Close)
-        self.btnbox_main.setCenterButtons(False)
+        self.hframe_mainbuttons = QFrame(self.centralwidget)
+        self.hframe_mainbuttons.setObjectName(u"hframe_mainbuttons")
+        self.hlayout_mainbuttons = QHBoxLayout(self.hframe_mainbuttons)
+        self.hlayout_mainbuttons.setObjectName(u"hlayout_mainbuttons")
+        self.hspacer_mainbuttons = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.verticalLayout.addWidget(self.btnbox_main)
+        self.hlayout_mainbuttons.addItem(self.hspacer_mainbuttons)
+
+        self.btn_apply = QPushButton(self.hframe_mainbuttons)
+        self.btn_apply.setObjectName(u"btn_apply")
+        sizePolicy2.setHeightForWidth(self.btn_apply.sizePolicy().hasHeightForWidth())
+        self.btn_apply.setSizePolicy(sizePolicy2)
+        self.btn_apply.setMinimumSize(QSize(80, 25))
+        self.btn_apply.setMaximumSize(QSize(120, 30))
+
+        self.hlayout_mainbuttons.addWidget(self.btn_apply)
+
+        self.btn_cancel = QPushButton(self.hframe_mainbuttons)
+        self.btn_cancel.setObjectName(u"btn_cancel")
+        sizePolicy2.setHeightForWidth(self.btn_cancel.sizePolicy().hasHeightForWidth())
+        self.btn_cancel.setSizePolicy(sizePolicy2)
+        self.btn_cancel.setMinimumSize(QSize(80, 25))
+        self.btn_cancel.setMaximumSize(QSize(120, 30))
+
+        self.hlayout_mainbuttons.addWidget(self.btn_cancel)
+
+        self.btn_ok = QPushButton(self.hframe_mainbuttons)
+        self.btn_ok.setObjectName(u"btn_ok")
+        sizePolicy2.setHeightForWidth(self.btn_ok.sizePolicy().hasHeightForWidth())
+        self.btn_ok.setSizePolicy(sizePolicy2)
+        self.btn_ok.setMinimumSize(QSize(80, 25))
+        self.btn_ok.setMaximumSize(QSize(120, 30))
+
+        self.hlayout_mainbuttons.addWidget(self.btn_ok)
+
+
+        self.verticalLayout.addWidget(self.hframe_mainbuttons)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
@@ -372,5 +404,8 @@ class Ui_MainWindow(object):
         self.lbl_usertitle.setText(QCoreApplication.translate("MainWindow", u"User's Title:", None))
         self.input_usertitle.setText(QCoreApplication.translate("MainWindow", u"Your Title Here", None))
         self.tabwidget_preferences.setTabText(self.tabwidget_preferences.indexOf(self.tab_user), QCoreApplication.translate("MainWindow", u"User", None))
+        self.btn_apply.setText(QCoreApplication.translate("MainWindow", u"Apply", None))
+        self.btn_cancel.setText(QCoreApplication.translate("MainWindow", u"Cancel", None))
+        self.btn_ok.setText(QCoreApplication.translate("MainWindow", u"OK", None))
     # retranslateUi
 

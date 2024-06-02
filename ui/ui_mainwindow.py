@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(821, 326)
+        MainWindow.resize(621, 326)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -92,6 +92,7 @@ class Ui_MainWindow(object):
         self.vframe_left = QFrame(self.centralwidget)
         self.vframe_left.setObjectName(u"vframe_left")
         self.vframe_left.setMinimumSize(QSize(200, 0))
+        self.vframe_left.setMaximumSize(QSize(300, 16777215))
         font1 = QFont()
         font1.setFamilies([u"Liberation Sans"])
         font1.setPointSize(10)
@@ -170,8 +171,8 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.comptree)
 
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.hlayout_comptree_btns = QHBoxLayout()
+        self.hlayout_comptree_btns.setObjectName(u"hlayout_comptree_btns")
         self.btn_delcomp = QPushButton(self.vframe_left)
         self.btn_delcomp.setObjectName(u"btn_delcomp")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -179,8 +180,8 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.btn_delcomp.sizePolicy().hasHeightForWidth())
         self.btn_delcomp.setSizePolicy(sizePolicy2)
-        self.btn_delcomp.setMinimumSize(QSize(80, 20))
-        self.btn_delcomp.setMaximumSize(QSize(100, 40))
+        self.btn_delcomp.setMinimumSize(QSize(50, 20))
+        self.btn_delcomp.setMaximumSize(QSize(80, 40))
         font3 = QFont()
         font3.setFamilies([u"Liberation Sans"])
         font3.setPointSize(10)
@@ -188,21 +189,30 @@ class Ui_MainWindow(object):
         self.btn_delcomp.setFont(font3)
         self.btn_delcomp.setStyleSheet(u"")
 
-        self.horizontalLayout_4.addWidget(self.btn_delcomp)
+        self.hlayout_comptree_btns.addWidget(self.btn_delcomp)
 
         self.btn_newcomp = QPushButton(self.vframe_left)
         self.btn_newcomp.setObjectName(u"btn_newcomp")
         sizePolicy2.setHeightForWidth(self.btn_newcomp.sizePolicy().hasHeightForWidth())
         self.btn_newcomp.setSizePolicy(sizePolicy2)
-        self.btn_newcomp.setMinimumSize(QSize(80, 20))
-        self.btn_newcomp.setMaximumSize(QSize(100, 40))
+        self.btn_newcomp.setMinimumSize(QSize(50, 20))
+        self.btn_newcomp.setMaximumSize(QSize(80, 40))
         self.btn_newcomp.setFont(font3)
         self.btn_newcomp.setStyleSheet(u"")
 
-        self.horizontalLayout_4.addWidget(self.btn_newcomp)
+        self.hlayout_comptree_btns.addWidget(self.btn_newcomp)
+
+        self.btn_savecomp = QPushButton(self.vframe_left)
+        self.btn_savecomp.setObjectName(u"btn_savecomp")
+        sizePolicy2.setHeightForWidth(self.btn_savecomp.sizePolicy().hasHeightForWidth())
+        self.btn_savecomp.setSizePolicy(sizePolicy2)
+        self.btn_savecomp.setMinimumSize(QSize(50, 20))
+        self.btn_savecomp.setMaximumSize(QSize(80, 40))
+
+        self.hlayout_comptree_btns.addWidget(self.btn_savecomp)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_2.addLayout(self.hlayout_comptree_btns)
 
 
         self.horizontalLayout_2.addWidget(self.vframe_left)
@@ -213,7 +223,7 @@ class Ui_MainWindow(object):
 
         self.vframe_right = QFrame(self.centralwidget)
         self.vframe_right.setObjectName(u"vframe_right")
-        self.vframe_right.setMinimumSize(QSize(550, 0))
+        self.vframe_right.setMinimumSize(QSize(500, 0))
         self.vframe_right.setFont(font1)
         self.vframe_right.setStyleSheet(u"")
         self.vframe_right.setFrameShape(QFrame.WinPanel)
@@ -253,7 +263,7 @@ class Ui_MainWindow(object):
         self.btn_prevcomp.setObjectName(u"btn_prevcomp")
         sizePolicy2.setHeightForWidth(self.btn_prevcomp.sizePolicy().hasHeightForWidth())
         self.btn_prevcomp.setSizePolicy(sizePolicy2)
-        self.btn_prevcomp.setMinimumSize(QSize(100, 20))
+        self.btn_prevcomp.setMinimumSize(QSize(80, 20))
         self.btn_prevcomp.setMaximumSize(QSize(125, 40))
         self.btn_prevcomp.setFont(font3)
         self.btn_prevcomp.setStyleSheet(u"")
@@ -265,7 +275,7 @@ class Ui_MainWindow(object):
         self.btn_nextcomp.setObjectName(u"btn_nextcomp")
         sizePolicy2.setHeightForWidth(self.btn_nextcomp.sizePolicy().hasHeightForWidth())
         self.btn_nextcomp.setSizePolicy(sizePolicy2)
-        self.btn_nextcomp.setMinimumSize(QSize(100, 20))
+        self.btn_nextcomp.setMinimumSize(QSize(80, 20))
         self.btn_nextcomp.setMaximumSize(QSize(125, 40))
         self.btn_nextcomp.setFont(font3)
         self.btn_nextcomp.setLayoutDirection(Qt.RightToLeft)
@@ -274,7 +284,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.btn_nextcomp)
 
-        self.horizontalSpacer_2 = QSpacerItem(30, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(10, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
@@ -282,13 +292,13 @@ class Ui_MainWindow(object):
         self.btn_compdefault.setObjectName(u"btn_compdefault")
         sizePolicy2.setHeightForWidth(self.btn_compdefault.sizePolicy().hasHeightForWidth())
         self.btn_compdefault.setSizePolicy(sizePolicy2)
-        self.btn_compdefault.setMinimumSize(QSize(100, 20))
+        self.btn_compdefault.setMinimumSize(QSize(80, 20))
         self.btn_compdefault.setMaximumSize(QSize(125, 40))
         self.btn_compdefault.setFont(font3)
 
         self.horizontalLayout.addWidget(self.btn_compdefault)
 
-        self.horizontalSpacer_3 = QSpacerItem(5, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(5, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_3)
 
@@ -306,7 +316,7 @@ class Ui_MainWindow(object):
         sizePolicy3.setVerticalStretch(1)
         sizePolicy3.setHeightForWidth(self.main_frame.sizePolicy().hasHeightForWidth())
         self.main_frame.setSizePolicy(sizePolicy3)
-        self.main_frame.setMinimumSize(QSize(300, 200))
+        self.main_frame.setMinimumSize(QSize(400, 200))
         self.main_frame.setFrameShape(QFrame.StyledPanel)
         self.main_frame.setFrameShadow(QFrame.Sunken)
 
@@ -321,7 +331,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 821, 17))
+        self.menubar.setGeometry(QRect(0, 0, 621, 17))
         self.menu_file = QMenu(self.menubar)
         self.menu_file.setObjectName(u"menu_file")
         self.menu_exportas = QMenu(self.menu_file)
@@ -482,17 +492,21 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(tooltip)
         self.btn_delcomp.setToolTip(QCoreApplication.translate("MainWindow", u"Delete the current component", None))
 #endif // QT_CONFIG(tooltip)
-        self.btn_delcomp.setText(QCoreApplication.translate("MainWindow", u"  Delete", None))
+        self.btn_delcomp.setText("")
 #if QT_CONFIG(shortcut)
         self.btn_delcomp.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+D", None))
 #endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
         self.btn_newcomp.setToolTip(QCoreApplication.translate("MainWindow", u"Create a new component", None))
 #endif // QT_CONFIG(tooltip)
-        self.btn_newcomp.setText(QCoreApplication.translate("MainWindow", u"  New", None))
+        self.btn_newcomp.setText("")
 #if QT_CONFIG(shortcut)
         self.btn_newcomp.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
 #endif // QT_CONFIG(shortcut)
+#if QT_CONFIG(tooltip)
+        self.btn_savecomp.setToolTip(QCoreApplication.translate("MainWindow", u"Save all component data", None))
+#endif // QT_CONFIG(tooltip)
+        self.btn_savecomp.setText("")
         self.frame_compinfo.setStyleSheet("")
         self.lbl_compinfo.setText(QCoreApplication.translate("MainWindow", u"Component Information", None))
         self.btn_prevcomp.setText(QCoreApplication.translate("MainWindow", u"  Prev", None))

@@ -1,4 +1,5 @@
 import sys
+from PySide6 import QtCore
 from PySide6.QtWidgets import QApplication
 
 from ui.main_window import MainWindow
@@ -14,6 +15,7 @@ if __name__ == "__main__":
     epsa_wizard_style = load_epsa_qss()
     app = QApplication(sys.argv)
     window = MainWindow()
+
     icon_qss = window.icon_qss()
 
     # Set application StyleSheet by adding the qss file and icon_qss strings

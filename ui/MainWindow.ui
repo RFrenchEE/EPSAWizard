@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
+    <width>621</width>
     <height>326</height>
    </rect>
   </property>
@@ -53,6 +53,12 @@
        <size>
         <width>200</width>
         <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="font">
@@ -354,7 +360,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <layout class="QHBoxLayout" name="hlayout_comptree_btns">
          <item>
           <widget class="QPushButton" name="btn_delcomp">
            <property name="sizePolicy">
@@ -365,13 +371,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>80</width>
+             <width>50</width>
              <height>20</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>40</height>
             </size>
            </property>
@@ -389,7 +395,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>  Delete</string>
+            <string/>
            </property>
            <property name="shortcut">
             <string>Ctrl+D</string>
@@ -406,13 +412,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>80</width>
+             <width>50</width>
              <height>20</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>40</height>
             </size>
            </property>
@@ -430,10 +436,38 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>  New</string>
+            <string/>
            </property>
            <property name="shortcut">
             <string>Ctrl+N</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_savecomp">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Save all component data</string>
+           </property>
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
@@ -462,7 +496,7 @@
      <widget class="QFrame" name="vframe_right">
       <property name="minimumSize">
        <size>
-        <width>550</width>
+        <width>500</width>
         <height>0</height>
        </size>
       </property>
@@ -597,7 +631,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>80</width>
               <height>20</height>
              </size>
             </property>
@@ -638,7 +672,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>80</width>
               <height>20</height>
              </size>
             </property>
@@ -682,7 +716,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>30</width>
+              <width>10</width>
               <height>20</height>
              </size>
             </property>
@@ -698,7 +732,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>80</width>
               <height>20</height>
              </size>
             </property>
@@ -724,6 +758,9 @@
            <spacer name="horizontalSpacer_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -762,7 +799,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>300</width>
+           <width>400</width>
            <height>200</height>
           </size>
          </property>
@@ -788,7 +825,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>821</width>
+     <width>621</width>
      <height>17</height>
     </rect>
    </property>

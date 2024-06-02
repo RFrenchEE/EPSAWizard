@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (
-    QMainWindow, QMessageBox, QTreeWidgetItem
+    QMainWindow, QMessageBox, QTreeWidgetItem, QFileDialog
 )
 from PySide6.QtGui import (
     QIcon, QFont
@@ -11,6 +11,8 @@ from PySide6.QtCore import (
 # The imports below are necessary to properly import SVGs on Windows 10, 64-bit.
 # No idea why. See https://github.com/derrian-distro/LoRA_Easy_Training_Scripts/issues/94
 from PySide6 import QtSvg, QtXml
+
+import re
 
 from utilities.epsa_logging import epsa_logger
 from utilities.epsa_settings import *
@@ -27,12 +29,16 @@ class MainWindow(QMainWindow):
 
         super().__init__()
 
+        # Current file path + name
+        self.current_filepath = r""
+        self.current_filename = r"newfile.epsa"
+
         # Variable to note if the window is currently being closed.
         # This is neccessary because our _slot_exit()
         self._is_closing = False
 
         # Is the file saved?
-        self._is_saved = False
+        self._is_saved = True
 
         # Preferences Window?
         self.pref_window = None
@@ -56,9 +62,11 @@ class MainWindow(QMainWindow):
 
         # Load settings
         self._load_settings()
-        
-        # TODO: Set version in settings
-        self.setWindowTitle(f"EPSA Wizard v{epsa_settings.value(SETTING_VERSION_NUMBER)}")
+
+       # Set window title 
+        self.base_title = f"EPSA Wizard v{epsa_settings.value(SETTING_VERSION_NUMBER)}"
+        self.window_title = f"{self.base_title} - {self.current_filename}"
+        self.setWindowTitle(self.window_title)
 
         # Set icons
         # TODO: Add dark/light theming integration
@@ -69,8 +77,6 @@ class MainWindow(QMainWindow):
 
         # Set up slots
         self._setup_slots()
-
-        self.slot_preferences()
 
     def _setup_window(self):
         epsa_logger.info("Setting up window...")
@@ -111,6 +117,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_nextcomp.clicked.connect(self.slot_nextcomp)
         self.ui.btn_delcomp.clicked.connect(self.slot_delcomp)
         self.ui.btn_newcomp.clicked.connect(self.slot_newcomp)
+        self.ui.btn_savecomp.clicked.connect(self.slot_savecomp)
         self.ui.btn_compdefault.clicked.connect(self.slot_compdefault)
 
         # Component Tree
@@ -213,6 +220,11 @@ class MainWindow(QMainWindow):
         icon_new.addFile(svg_icon("plus"), QSize(), QIcon.Normal, QIcon.Off)
         self.ui.btn_newcomp.setIcon(icon_new)
 
+        # Save Components Button (Check Mark)
+        icon_save = QIcon()
+        icon_save.addFile(svg_icon("check"), QSize(), QIcon.Normal, QIcon.Off)
+        self.ui.btn_savecomp.setIcon(icon_save)
+
     def icon_qss(self, theme="dark"):
         epsa_logger.info("Generating Qt StyleSheet icon QSS...")
 
@@ -227,6 +239,7 @@ class MainWindow(QMainWindow):
 
         icon_chevdown = svg_icon("chevron_down")
         icon_chevup = svg_icon("chevron_up")
+        icon_check = svg_icon("check")
 
 
         qss = f"""
@@ -239,6 +252,9 @@ class MainWindow(QMainWindow):
             QComboBox::down-arrow {{
                 right: 4px;
                 image: url({icon_chevdown});
+            }}
+            QCheckBox::indicator:checked {{
+                image: url({icon_check})
             }}
             """
 
@@ -266,16 +282,121 @@ class MainWindow(QMainWindow):
             epsa_settings.setValue(SETTING_MAIN_WINDOW_W, WINDOW_INIT_W)
 
     def slot_newfile(self):
-        epsa_logger.info("New File action called...")
+        check_passed = self._check_saved()
+        if not check_passed:
+            return
+        self.window_title = f"{self.base_title} - newfile.epsa"
+        self.setWindowTitle(self.window_title)
+
+        # Check default directory to open
+        defaultdir = epsa_settings.value(SETTING_LAST_FILE_DIR)
+        if defaultdir is None:
+            defaultdir = ""
+
+        epsa_logger.info("Created newfile.epsa")
+        self.current_filepath = defaultdir
+        self.current_filename = "newfile.epsa"
 
     def slot_openfile(self):
-        epsa_logger.info("Open File action called...")
+        # Check default directory to open
+        defaultdir = epsa_settings.value(SETTING_LAST_FILE_DIR)
+        if defaultdir is None:
+            defaultdir = ""
+
+        filename = QFileDialog.getOpenFileName(self, "Open EPSA File...", defaultdir, "EPSA File (*.epsa)")
+
+        fn_str = filename[0]
+        res = re.search(
+            r"[\D\d]+/",
+            fn_str
+        )
+        self.current_filepath = res.group()[:-1]
+
+        res = re.search(
+            r"\w+\.epsa",
+            fn_str
+        )
+        self.current_filename = res.group()
+
+
+        if fn_str == "":
+            epsa_logger.info(f"File open canceled")
+
+        else:
+            epsa_logger.info(f"Opening file {fn_str}")
+            # Save opening directory
+            res = re.search(
+                r"[\D\d]+/",
+                fn_str
+            )
+            fn_dir = res.group()[:-1]
+            epsa_settings.setValue(SETTING_LAST_FILE_DIR, fn_dir)
 
     def slot_savefile(self):
         epsa_logger.info("Save File action called...")
 
+        was_saved = False
+        current_filepathname = f"{self.current_filepath}/{self.current_filename}"
+        if current_filepathname[1:] == self.current_filename:
+            # No directory specified yet
+            was_saved = self.slot_savefileas()
+
+        if was_saved:
+            with open(current_filepathname, 'w') as f:
+                f.write("Hello World!")
+            self._is_saved = True
+
+        # Remove star from window title to indicate file is saved 
+        self.window_title = f"{self.base_title} - {self.current_filename}"
+        self.setWindowTitle(self.window_title)
+
     def slot_savefileas(self):
-        epsa_logger.info("Save File As action called...")
+        # Check default directory to open
+        defaultdir = epsa_settings.value(SETTING_LAST_FILE_DIR)
+        if defaultdir is None:
+            defaultdir = ""
+
+        current_filepathname = f"{self.current_filepath}/{self.current_filename}"
+
+        if current_filepathname == "":
+            fp = f"{defaultdir}/newfile.epsa"
+        else:
+            fp = current_filepathname
+
+        filename = QFileDialog.getSaveFileName(self, "Save EPSA File As...", fp, "EPSA File (*.epsa)")
+
+        fn_str = filename[0]
+
+        if fn_str != "":
+            res = re.search(
+                r"[\D\d]+/",
+                fn_str
+            )
+            self.current_filepath = res.group()[:-1]
+
+            res = re.search(
+                r"\w+\.epsa",
+                fn_str
+            )
+            self.current_filename = res.group()
+
+
+            if fn_str == "":
+                epsa_logger.info(f"File Save As canceled")
+                return False
+            else:
+                self.slot_savefile()
+                epsa_logger.info(f"Saved file {fn_str}")
+                # Save opening directory
+                res = re.search(
+                    r"[\D\d]+/",
+                    fn_str
+                )
+                fn_dir = res.group()[:-1]
+                epsa_settings.setValue(SETTING_LAST_FILE_DIR, fn_dir)
+                return True
+
+        return False
 
     def slot_import(self):
         epsa_logger.info("Import action called...")
@@ -358,6 +479,16 @@ class MainWindow(QMainWindow):
     def slot_newcomp(self):
         epsa_logger.info("New Component Button clicked...")
 
+    def slot_savecomp(self):
+        epsa_logger.info("Save Components Button clicked...")
+
+        # Add star to window title to indicate unsaved changes
+        self.window_title = f"{self.base_title} - {self.current_filename}*"
+        self.setWindowTitle(self.window_title)
+
+        # TODO: Run checks on data to see if it has actually changed
+        self._is_saved = False
+
     def slot_compdefault(self):
         epsa_logger.info("Setting default component values...")
 
@@ -380,6 +511,11 @@ class MainWindow(QMainWindow):
         # Save settings
         self._save_settings()
 
+        check_passed = self._check_saved()
+        if check_passed:
+            self.close()
+
+    def _check_saved(self):
         if self._is_saved is False:
             # Ask user if they want to save
             exit_save_mbox = QMessageBox()
@@ -397,20 +533,23 @@ class MainWindow(QMainWindow):
             exit_save_return = exit_save_mbox.exec()
 
             if exit_save_return == QMessageBox.Save:
-                print(f"Saving before exit")
+                epsa_logger.info(f"Saving from QMessageBox")
                 self._save_settings()
                 self.slot_savefile()
                 self._is_closing = True
-                self.close()
+                return True
             elif exit_save_return == QMessageBox.Discard:
-                print(f"Discarded changes")
+                epsa_logger.info(f"Discarding changes from QMessageBox")
                 self._save_settings()
                 self._is_closing = True
-                self.close()
+                return True
             elif exit_save_return == QMessageBox.Cancel:
                 # Don't exit. Return from this slot.
-                print(f"Cancelled the exit")
+                epsa_logger.info(f"Cancelled from QMessageBox")
                 self._is_closing = False
+                return False
+
+        return True
 
     def closeEvent(self, event):
         epsa_logger.info("Request to close...")
