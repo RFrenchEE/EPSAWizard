@@ -31,14 +31,29 @@ QFrame::VLine {
 /******************************************************************************/
 
 /******************************************************************************/
-/*** QFrame#main_frame ********************************************************/
+/*** QFrame - No Frames *******************************************************/
 /******************************************************************************/
 QFrame#main_frame {
 	/* Remove border */
 	border-style: none;
 }
+QFrame#frame_infoselection_main {
+	/* Remove border */
+	border-style: none;
+}
+QFrame#frame_infoselection_list {
+	/* Remove border */
+	border-style: none;
+}
+QFrame#frame_infoselection_desc {
+	/* Remove border */
+	border-style: none;
+}
+QFrame#frame_infoselection_btns {
+	/* Remove border */
+	border-style: none;
+}
 /******************************************************************************/
-
 
 /******************************************************************************/
 /*** QPushButton **************************************************************/
@@ -46,18 +61,15 @@ QFrame#main_frame {
 QPushButton{
 	border-style: solid;
 	border-color: @color-dark-lightened;
-	border-width: @width-border-button;
+	border-width: 2px;
 	border-radius: @radius-button;
-	color: @color-dark-lightened;
+	color: @color-white;
 	padding: @padding-button;
 	background-color: @color-dark;
 }
 QPushButton:hover{
-	border-style: solid;
 	border-color: @color-primary-highlight;
-	border-width: @width-border-button;
 	border-radius: @radius-button;
-	/* border-bottom-width: @width-border-button; */
 	border-style: solid;
 	color: @color-white;
 	padding: @padding-button;
@@ -72,6 +84,10 @@ QPushButton:pressed{
 	padding: @padding-button;
 	background-color: @color-dark;
 }
+QPushButton:focus {
+	border-width: 1px;
+	border-color: @color-primary;
+}
 QPushButton:disabled{
 	border-style: solid;
 	border-color: @color-dark-lightened;
@@ -79,7 +95,6 @@ QPushButton:disabled{
 	background-color: @color-dark;
 }
 /******************************************************************************/
-
 
 /******************************************************************************/
 /*** QGroupbox ****************************************************************/
@@ -107,10 +122,9 @@ QGroupBox::title {
 QLabel {
 	border-style: none;
 	border-width: 0px;
-	color: @color-dark-lightened;
+	color: @color-white;
 }
 /******************************************************************************/
-
 
 /******************************************************************************/
 /*** QPlainTextEdit ***********************************************************/
@@ -143,23 +157,34 @@ QLineEdit {
 /******************************************************************************/
 
 /******************************************************************************/
+/*** QTextBrowser *************************************************************/
+/******************************************************************************/
+QTextBrowser {
+	border-style: solid;
+	background-color: @color-dark;
+	border-width: @width-border-textedit;
+	border-color: @color-dark-lightened;
+	border-radius: @radius-textedit;
+	color: @color-white;
+	selection-background-color: @color-primary;
+	selection-color: @color-white;
+}
+/******************************************************************************/
+
+/******************************************************************************/
 /*** QComboBox ****************************************************************/
 /******************************************************************************/
 QComboBox {
     border: 1px solid @color-dark-lightened;
     border-radius: 4px;
-    padding: 4px;
-	color: @color-dark-lightened;
-	selection-background-color: @color-primary;
-	selection-color: @color-white;
+    padding: 2px;
+	color: @color-white;
 }
 QComboBox:selected {
     border: 1px solid @color-primary-highlight;
     border-radius: 4px;
-    padding: 4px;
-	color: @color-dark-lightened;
-	selection-background-color: @color-primary;
-	selection-color: @color-white;
+    padding: 2px;
+	color: @color-white;
 }
 QComboBox:editable {
     background: @color-primary-highlight;
@@ -169,7 +194,7 @@ QComboBox:!editable, QComboBox::drop-down:editable {
 }
 /* QComboBox gets the "on" state when the popup is open */
 QComboBox:!editable:on, QComboBox::drop-down:editable:on {
-    background: @color-primary;
+    background: @color-primary-highlight;
 }
 QComboBox:on { /* shift the text when the popup opens */
 	border-radius: 0px;
@@ -178,7 +203,6 @@ QComboBox::drop-down {
 	border-style: none;
 	border-color: @color-dark-lightened;
 	border-width: 1px;
-	border-radius: 4px;
     subcontrol-position: right;
 }
 QComboBox::down-arrow:on { /* shift the arrow when popup is open */
@@ -187,34 +211,68 @@ QComboBox::down-arrow:on { /* shift the arrow when popup is open */
 }
 QComboBox QAbstractItemView {
     border: 1px solid @color-dark-lightened;
-    border-radius: 0px;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
 	background-color: @color-dark;
-	color: @color-dark-lightened;
+	color: @color-white;
 }
 QComboBox QAbstractItemView::item:hover {
 	border: none;
 	border-width: 0px;
-	color: @color-dark-lightened;
-	background-color: @color-primary;
+	background-color: @color-primary-highlight;
+	color: @color-white;
 }
 QComboBox QAbstractItemView::item:selected {
 	border: none;
 	border-width: 0px;
 	color: @color-white;
-	background-color: @color-primary;
+	background-color: @color-primary-highlight;
 }
 /******************************************************************************/
-
 
 /******************************************************************************/
 /*** QScrollArea **************************************************************/
 /******************************************************************************/
 QScrollArea {
-	color: @color-dark;
+	border-style: solid;
+	border-color: @color-dark-lightened;
+	border-radius: 4px;
 	background-color: @color-dark;
 }
 /******************************************************************************/
 
+/******************************************************************************/
+/*** QScrollBar ***************************************************************/
+/******************************************************************************/
+QScrollBar {
+    border: 0px solid;
+    border-radius: 4px;
+	padding: 2px;
+    background-color: @color-dark-lightened;
+}
+QScrollBar::add-line, QScrollBar::sub-line
+{
+	border: none;
+    border-radius: 4px;
+	background-color: @color-dark-lightened;
+}
+QScrollBar::add-page, QScrollBar::sub-page
+{
+	border: none;
+    border-radius: 4px;
+	background-color: @color-dark-lightened;
+}
+QScrollBar::handle {
+	border: none;
+	border-radius: 4px;
+	background-color: @color-dark;
+}
+QScrollBar::handle:hover {
+	background-color: @color-primary-highlight;
+}
+/******************************************************************************/
 
 /******************************************************************************/
 /*** QTabWidget ***************************************************************/
@@ -294,6 +352,25 @@ QTreeWidget::item:selected {
 QTreeWidget QHeaderView::section {
 	color: @color-dark-lightened;
 	background-color: @color-dark;
+}
+/******************************************************************************/
+
+/******************************************************************************/
+/*** QListWidget **************************************************************/
+/******************************************************************************/
+QListWidget {
+	border: 1px solid @color-dark-lightened;
+    border-radius: 4px;
+    padding: 4px;
+	color: @color-dark-lightened;
+}
+QListWidget::item:hover {
+	background-color: @color-dark;
+	color: @color-white;
+}
+QListWidget::item:selected {
+	background-color: @color-primary-highlight;
+	color: @color-white;
 }
 /******************************************************************************/
 

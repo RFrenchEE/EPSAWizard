@@ -9,9 +9,9 @@ the EPSA resistor calculations
 from dataclasses import dataclass
 from enum import Enum
 from typing import List
+from textwrap import dedent
 
 # Local imports
-from utilities.pprinter import pprint_function_called, pprint_method_called
 from utilities.epsa_units import UnitQuantity
 from utilities._component_errors import ComponentNote
 from utilities.epsa_logging import epsa_logger
@@ -21,7 +21,8 @@ epsa_logger.debug("Imported resistors.py")
 @dataclass
 class ResistorStyle:
     name: str # Name of resistor style from table 4 [string]
-    description: str # Description of resistor style [string]
+    shortdesc: str # Short description of resistor style [string]
+    longdesc: str # HTML string with more advanced description of resistor style [string]
     derating_factor_power: float # Power derating factor [float]
     derating_factor_voltage: float # Voltage derating factor [float]
     derating_temp_T1: float # Derating temperature T1 [float, °C]
@@ -32,7 +33,12 @@ class ResistorStyle:
 resistor_style_dict = {
     "G311P672" : ResistorStyle(
         name="G311P672",
-        description="Fixed, High Voltage",
+        shortdesc="Fixed, High Voltage",
+        longdesc=dedent("""\
+            <p><b>G311P672 Style Resistor</b></p>
+            <p>Fixed, High Voltage</p>
+            <p>NASA Specification: <a href="https://nepp.nasa.gov/DocUploadsSpecs/S-311-P-672.pdf">G311P672 Specification</a>
+            """),
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=70.0,
@@ -41,7 +47,13 @@ resistor_style_dict = {
     ),
     "G311P683" : ResistorStyle(
         name="G311P683",
-        description="Fixed, Precision, High Voltage",
+        shortdesc="Fixed, Precision, High Voltage",
+        longdesc=dedent("""\
+            <p><b>G311P683 Style Resistor</b></p>
+            <p>Fixed, Precision, High Voltage</p>
+            <p>NASA Specification: <a href="https://nepp.nasa.gov/DocUploads/894A14D8-5C44-46AC-A8D5F3AC594C997D/S-311-P-683.pdf">G311P683 Specification</a></p>
+            <p>More Information: <a href="https://nepp.nasa.gov/pages/npsl/Resistors/p683/683pn.htm">Ordering Information, Example, and Explanation</a></p>
+            """),
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=125.0,
@@ -50,7 +62,13 @@ resistor_style_dict = {
     ),
     "G311P742" : ResistorStyle(
         name="G311P742",
-        description="Fixed, Low TC, Precision",
+        shortdesc="Fixed, Low TC, Precision",
+        longdesc=dedent("""\
+            <p><b>G311P742 Style Resistor</b></p>
+            <p>Fixed, Low TC, Precision</p>
+            <p>NASA Specification: <a href="https://nepp.nasa.gov/DocUploads/FA5291F4-7B93-4043-BC28A64BBD23A09A/S-311-P-742.pdf">G311P742 Specification</a></p>
+            <p>More Information: <a href="https://nepp.nasa.gov/npsl/Resistors/p742/742pn.htm">Ordering Information, Example, and Explanation</a></p>
+            """),
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=125.0,
@@ -59,7 +77,8 @@ resistor_style_dict = {
     ),
     "RBR, 1%" : ResistorStyle(
         name="RBR, 1%",
-        description="Fixed, Wirewound (Accurate), ER, 1%",
+        shortdesc="Fixed, Wirewound (Accurate), ER, 1%",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=125.0,
@@ -68,7 +87,8 @@ resistor_style_dict = {
     ),
     "RBR, 0.5%" : ResistorStyle(
         name="RBR, 0.5%",
-        description="Fixed, Wirewound (Accurate), ER, 0.5%",
+        shortdesc="Fixed, Wirewound (Accurate), ER, 0.5%",
+        longdesc="TODO",
         derating_factor_power=0.35,
         derating_factor_voltage=0.8,
         derating_temp_T1=125.0,
@@ -77,7 +97,8 @@ resistor_style_dict = {
     ),
     "RBR, 0.1%" : ResistorStyle(
         name="RBR, 0.1%",
-        description="Fixed, Wirewound (Accurate), ER, 0.1%",
+        shortdesc="Fixed, Wirewound (Accurate), ER, 0.1%",
+        longdesc="TODO",
         derating_factor_power=0.25,
         derating_factor_voltage=0.8,
         derating_temp_T1=125.0,
@@ -86,7 +107,8 @@ resistor_style_dict = {
     ),
     "RWR" : ResistorStyle(
         name="RWR",
-        description="Fixed, Wirewound (Power Type), ER",
+        shortdesc="Fixed, Wirewound (Power Type), ER",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=25.0,
@@ -95,7 +117,8 @@ resistor_style_dict = {
     ),
     "RCR" : ResistorStyle(
         name="RCR",
-        description="Fixed, Composition (Insulated), ER",
+        shortdesc="Fixed, Composition (Insulated), ER",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=70.0,
@@ -104,7 +127,8 @@ resistor_style_dict = {
     ),
     "RER" : ResistorStyle(
         name="RER",
-        description="Fixed, Wirewound (Power Type), Chassi Mounted, ER",
+        shortdesc="Fixed, Wirewound (Power Type), Chassi Mounted, ER",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=25.0,
@@ -113,7 +137,8 @@ resistor_style_dict = {
     ),
     "RTR" : ResistorStyle(
         name="RTR",
-        description="Variable, Wirewound (Lead Screw Acutated), ER",
+        shortdesc="Variable, Wirewound (Lead Screw Acutated), ER",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=25.0,
@@ -122,7 +147,8 @@ resistor_style_dict = {
     ),
     "RLR, 100ppm" : ResistorStyle(
         name="RLR, 100ppm",
-        description="Fixed, Film (Insulated), ER, 100ppm",
+        shortdesc="Fixed, Film (Insulated), ER, 100ppm",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=70.0,
@@ -131,7 +157,8 @@ resistor_style_dict = {
     ),
     "RLR, 350ppm" : ResistorStyle(
         name="RLR, 350ppm",
-        description="Fixed, Film (Insulated), ER, 350ppm",
+        shortdesc="Fixed, Film (Insulated), ER, 350ppm",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=70.0,
@@ -140,7 +167,8 @@ resistor_style_dict = {
     ),
     "RNX" : ResistorStyle(
         name="RNX",
-        description="Fixed, Film, ER",
+        shortdesc="Fixed, Film, ER",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=125.0,
@@ -149,7 +177,8 @@ resistor_style_dict = {
     ),
     "RM" : ResistorStyle(
         name="RM",
-        description="Fixed, Film, Chip, ER",
+        shortdesc="Fixed, Film, Chip, ER",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=70.0,
@@ -158,7 +187,8 @@ resistor_style_dict = {
     ),
     "RZ" : ResistorStyle(
         name="RZ",
-        description="Fixed, Film, Networks",
+        shortdesc="Fixed, Film, Networks",
+        longdesc="TODO",
         derating_factor_power=0.6,
         derating_factor_voltage=0.8,
         derating_temp_T1=70.0,
@@ -167,7 +197,8 @@ resistor_style_dict = {
     ),
     "Others" : ResistorStyle(
         name="Others",
-        description="Various",
+        shortdesc="Various",
+        longdesc="TODO",
         derating_factor_power=0.5,
         derating_factor_voltage=0.8,
         derating_temp_T1=0.0, # NOTE: This must be calculated, per Note 4

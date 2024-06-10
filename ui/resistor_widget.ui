@@ -55,7 +55,7 @@
       </font>
      </property>
      <property name="title">
-      <string>PN and Type</string>
+      <string>PNs and Style</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -104,7 +104,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Type: </string>
+           <string>Style: </string>
           </property>
          </widget>
         </item>
@@ -136,84 +136,12 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="toolTip">
+           <string>Resistor style</string>
+          </property>
           <item>
            <property name="text">
-            <string>G311P672</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>G311P683</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>G311P742</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RBR, 1%</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RBR, 0.5%</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RBR, 0.1%</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RWR</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RCR</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RER</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RTR</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RLR, 100ppm</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RLR, 350ppm</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RNX</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RM</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RZ</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Other</string>
+            <string>TEST</string>
            </property>
           </item>
          </widget>
@@ -253,6 +181,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Resistor style selection help</string>
           </property>
           <property name="text">
            <string/>
@@ -1551,6 +1482,10 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>combo_type</tabstop>
+  <tabstop>btn_type</tabstop>
+  <tabstop>input_mpn</tabstop>
+  <tabstop>input_apn</tabstop>
   <tabstop>input_R</tabstop>
   <tabstop>input_Prated</tabstop>
   <tabstop>input_Vmaxapplied</tabstop>
