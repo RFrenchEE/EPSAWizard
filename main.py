@@ -9,8 +9,6 @@ from utilities.epsa_logging import epsa_logger
 from utilities.epsa_settings import *
 
 if __name__ == "__main__":
-    # Set version number
-    epsa_settings.setValue(SETTING_VERSION_NUMBER, EPSA_WIZARD_VERSION)
 
     epsa_wizard_style = load_epsa_qss()
     app = QApplication(sys.argv)

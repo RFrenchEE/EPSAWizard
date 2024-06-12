@@ -29,6 +29,12 @@ class MainWindow(QMainWindow):
 
         super().__init__()
 
+        # Check that all registry keys exist
+        EPSA_check_settings()
+        self._load_settings()
+
+        self.version = EPSA_get_setting("version")
+
         # Current file path + name
         self.current_filepath = r""
         self.current_filename = r"newfile.epsa"
@@ -43,6 +49,9 @@ class MainWindow(QMainWindow):
         # Preferences Window?
         self.pref_window = None
         self.pref_window_is_open = False
+
+        # Other variables we want to store
+        # TODO
 
         # Import UI info from PySide6-uic output
         self.ui = Ui_MainWindow()
@@ -60,11 +69,8 @@ class MainWindow(QMainWindow):
         # TODO: Change this to dynamic maybe? Can't be static
         self.main_widget = ResistorWidget(self.ui.main_frame)
 
-        # Load settings
-        self._load_settings()
-
        # Set window title 
-        self.base_title = f"EPSA Wizard v{epsa_settings.value(SETTING_VERSION_NUMBER)}"
+        self.base_title = f"EPSA Wizard v{self.version}"
         self.window_title = f"{self.base_title} - {self.current_filename}"
         self.setWindowTitle(self.window_title)
 
@@ -81,15 +87,12 @@ class MainWindow(QMainWindow):
     def _setup_window(self):
         epsa_logger.info("Setting up window...")
         # Set window width and height
-        window_width = epsa_settings.value(SETTING_MAIN_WINDOW_W)
-        window_height = epsa_settings.value(SETTING_MAIN_WINDOW_H)
-        self.resize(window_width, window_height)
+        self.resize(self._window_width_val, self._window_height_val)
 
         # Set up main window icon
         icon_wizard = QIcon()
         icon_wizard.addFile(u"./images/epsa_wizard.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.setWindowIcon(icon_wizard)
-        # self.setTabShape(QTabWidget.Rounded)
 
     def _setup_slots(self):
         epsa_logger.info("Setting up slots...")
@@ -268,18 +271,21 @@ class MainWindow(QMainWindow):
         window_geometry = self.frameGeometry()
         window_width = window_geometry.width()
         window_height = window_geometry.height()
-        epsa_settings.setValue(SETTING_MAIN_WINDOW_H, window_height)
-        epsa_settings.setValue(SETTING_MAIN_WINDOW_W, window_width)
+
+        # Set up dict of settings to save w/ their values
+        savedict = {
+            "window_width": window_width,
+            "window_height": window_height
+        }
+
+        EPSA_save_settings(savedict)
 
     def _load_settings(self):
         epsa_logger.info("Loading settings...")
 
         # Below, define the settings we want to import
-        self._window_height_val = epsa_settings.value(SETTING_MAIN_WINDOW_H)
-        self._window_width_val = epsa_settings.value(SETTING_MAIN_WINDOW_W)
-        if self._window_height_val is None or self._window_width_val is None:
-            epsa_settings.setValue(SETTING_MAIN_WINDOW_H, WINDOW_INIT_H)
-            epsa_settings.setValue(SETTING_MAIN_WINDOW_W, WINDOW_INIT_W)
+        self._window_height_val = EPSA_get_setting("window_height")
+        self._window_width_val = EPSA_get_setting("window_width")
 
     def slot_newfile(self):
         check_passed = self._check_saved()
@@ -555,15 +561,9 @@ class MainWindow(QMainWindow):
         epsa_logger.info("Request to close...")
 
         # If closeEvent is called twice, skip it
+        # (This can happen in _check_saved())
         if self._is_closing is True:
             event.accept()
-            return
 
         # TODO: Here, we need to define any actions to take when exiting
-        if self._is_saved is False:
-            self.slot_exit()
-            if self._is_closing is False:
-                event.ignore()
-                return
-
-        event.accept()
+        self.slot_exit()

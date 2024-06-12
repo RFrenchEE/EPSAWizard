@@ -1,6 +1,11 @@
+from dataclasses import dataclass
+import typing
+from utilities.epsa_logging import epsa_logger
 from PySide6.QtCore import QSettings
 
-epsa_settings = QSettings("RyanFrenchEE", "EPSA Wizard")
+# Create settings object. This is global since any call to QSettings w/
+# the given strings will always save to the same location
+epsa_settings = QSettings("RFrenchEE", "EPSA Wizard")
 
 """
 Constants to use in program
@@ -10,23 +15,6 @@ EPSA_WIZARD_VERSION = "0.0.1a2"
 
 # Global debug flag
 EPSA_DEBUG = True
-
-# USER INTERFACE CONSTANTS
-WINDOW_INIT_W = 600
-WINDOW_INIT_H = 350
-MENUBAR_INIT_H = 20
-COMPTREE_MIN_W = 150
-COMPTREE_MAX_W = 250
-COMPTREE_MIN_H = 300
-COMPTREE_MAX_H = 16777215
-LBL_COMPACTION_MIN_W = 125
-LBL_COMPACTION_MAX_W = 200
-LBL_COMPACTION_MIN_H = 25
-LBL_COMPACTION_MAX_H = 50
-BTNS_COMPACTION_MIN_W = 60
-BTNS_COMPACTION_MAX_W = 150
-BTNS_COMPACTION_MIN_H = 25
-BTNS_COMPACTION_MAX_H = 50
 
 """
 Preferences Options
@@ -42,23 +30,52 @@ PREFOPTIONS_UNITMASS = ["Kilogram (kg, mg, etc.)", "Pound (lb, oz, etc.)"]
 System variable names
 """
 
-# Program (Global) Settings
-SETTING_VERSION_NUMBER = "program/versionNumber"
-SETTING_LAST_FILE_DIR = "program/lastFileDir"
-SETTING_LAST_FILE_NAME = "program/lastFileName"
+@dataclass
+class EPSASetting():
+    # Registry key name. Must follow camelCase naming conventions!
+    registrykey: str
+    # Default value. This can be many things, so keep type generic
+    default: typing.Any
 
-# Application (Runtime) Settings
-SETTING_UNITSYSTEM = "application/unitSystem"
-SETTING_UNITLENGTH = "application/unitLength"
-SETTING_UNITTEMP = "application/unitTemp"
-SETTING_UNITMASS = "application/unitMass"
-SETTING_DEBUG = "application/debug"
+# Define all settings here
+epsa_settingdefs = {
+    "version" : EPSASetting("version", EPSA_WIZARD_VERSION),
+    "window_height" : EPSASetting("windowHeight", 400),
+    "window_width" : EPSASetting("windowWidth", 600),
+    "last_file_dir" : EPSASetting("lastFileDir", ""),
+    "last_file_name" : EPSASetting("lastFileName", "newfile.epsa"),
+    "unit_system" : EPSASetting("unitSystem", 0),
+    "unit_length" : EPSASetting("unitLength", 0),
+    "unit_temp" : EPSASetting("unitTemp", 0),
+    "unit_mass" : EPSASetting("unitMass", 0),
+    "debug_flag" : EPSASetting("debug", 0),
+    "name" : EPSASetting("userName", "FirstName LastName"),
+    "org" : EPSASetting("userOrg", "Great Engineering Company"),
+    "title" : EPSASetting("userTitle", "Master Engineer"),
+}
 
-# User Settings
-SETTING_USERNAME = "user/userName"
-SETTING_USERORG = "user/userOrg"
-SETTING_USERTITLE = "user/userTitle"
+def EPSA_check_settings():
+    epsa_logger.info("Checking settings and update any missing settings w/ defaults")
 
-# Main Window Settings
-SETTING_MAIN_WINDOW_H = "mainwindow/windowHeight"
-SETTING_MAIN_WINDOW_W = "mainwindow/windowWidth"
+    for settingname, setting_obj in epsa_settingdefs.items():
+        currentval = epsa_settings.value(setting_obj.registrykey)
+        print(f"Setting {settingname} :")
+        print(f"Current value: {currentval}")
+
+        if settingname == "version":
+            # Check if version registry key matches the hard-coded version here
+            if currentval is None or currentval != EPSA_WIZARD_VERSION:
+                epsa_settings.setValue(setting_obj.registrykey, EPSA_WIZARD_VERSION)
+
+        else:
+            # Otherwise, check for Nones and fill them in
+            if currentval is None or currentval == "":
+                epsa_settings.setValue(setting_obj.registrykey, setting_obj.default)
+
+
+def EPSA_save_settings(settingdict) -> None:
+    for settingname, settingval in settingdict.items():
+        epsa_settings.setValue(epsa_settingdefs[settingname].registrykey, settingval)
+
+def EPSA_get_setting(settingname):
+    return epsa_settings.value(epsa_settingdefs[settingname].registrykey)

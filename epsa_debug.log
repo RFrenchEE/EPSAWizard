@@ -1,38 +1,42 @@
-2024-06-09 20:00:23,092 - DEBUG - <module> - MainThread
+2024-06-11 20:50:46,456 - DEBUG - <module> - MainThread
 	-> Imported infoselection_dialog.py
-2024-06-09 20:00:23,644 - DEBUG - <module> - MainThread
+2024-06-11 20:50:46,997 - DEBUG - <module> - MainThread
 	-> Imported resistors.py
-2024-06-09 20:00:23,651 - DEBUG - <module> - MainThread
+2024-06-11 20:50:47,004 - DEBUG - <module> - MainThread
 	-> Imported preferences_window.py
-2024-06-09 20:00:23,651 - DEBUG - <module> - MainThread
+2024-06-11 20:50:47,005 - DEBUG - <module> - MainThread
 	-> Imported main_window.py
-2024-06-09 20:00:23,677 - INFO - __init__ - MainThread
+2024-06-11 20:50:47,028 - INFO - __init__ - MainThread
 	-> Instantiating MainUI
-2024-06-09 20:00:23,720 - INFO - _update_compinfo_label - MainThread
-	-> Updating Component Info label...
-2024-06-09 20:00:23,720 - INFO - __init__ - MainThread
-	-> Instantiating ResistorWidget
-2024-06-09 20:00:23,734 - INFO - _relabel - MainThread
-	-> Relabeling ResistorWidget labels
-2024-06-09 20:00:23,735 - INFO - _setup_combo - MainThread
-	-> Adding resistor styles to RedsistorWidget's QComboBox
-2024-06-09 20:00:23,736 - INFO - _set_icons - MainThread
-	-> Adding icons
-2024-06-09 20:00:23,737 - INFO - _setup_slots - MainThread
-	-> Setting up ResistorWidget slots
-2024-06-09 20:00:23,738 - INFO - _create_resistortype_info - MainThread
-	-> Creating the resistor type info dictionary
-2024-06-09 20:00:23,739 - INFO - _load_settings - MainThread
+2024-06-11 20:50:47,029 - INFO - EPSA_check_settings - MainThread
+	-> Checking settings and update any missing settings w/ defaults
+2024-06-11 20:50:47,036 - INFO - _load_settings - MainThread
 	-> Loading settings...
-2024-06-09 20:00:23,740 - INFO - _set_icons - MainThread
+2024-06-11 20:50:47,068 - INFO - _update_compinfo_label - MainThread
+	-> Updating Component Info label...
+2024-06-11 20:50:47,069 - INFO - __init__ - MainThread
+	-> Instantiating ResistorWidget
+2024-06-11 20:50:47,079 - INFO - _relabel - MainThread
+	-> Relabeling ResistorWidget labels
+2024-06-11 20:50:47,080 - INFO - _setup_combo - MainThread
+	-> Adding resistor styles to RedsistorWidget's QComboBox
+2024-06-11 20:50:47,081 - INFO - _set_icons - MainThread
+	-> Adding icons
+2024-06-11 20:50:47,083 - INFO - _setup_slots - MainThread
+	-> Setting up ResistorWidget slots
+2024-06-11 20:50:47,084 - INFO - _create_resistortype_info - MainThread
+	-> Creating the resistor type info dictionary
+2024-06-11 20:50:47,084 - INFO - _set_icons - MainThread
 	-> Adding icons...
-2024-06-09 20:00:23,749 - INFO - _setup_window - MainThread
+2024-06-11 20:50:47,094 - INFO - _setup_window - MainThread
 	-> Setting up window...
-2024-06-09 20:00:23,751 - INFO - _setup_slots - MainThread
+2024-06-11 20:50:47,095 - INFO - _setup_slots - MainThread
 	-> Setting up slots...
-2024-06-09 20:00:23,753 - INFO - icon_qss - MainThread
+2024-06-11 20:50:47,096 - INFO - icon_qss - MainThread
 	-> Generating Qt StyleSheet icon QSS...
-2024-06-09 20:00:29,098 - INFO - slot_newfile - MainThread
-	-> Created newfile.epsa
-2024-06-09 20:00:31,223 - INFO - closeEvent - MainThread
+2024-06-11 20:50:48,843 - INFO - closeEvent - MainThread
 	-> Request to close...
+2024-06-11 20:50:48,844 - INFO - slot_exit - MainThread
+	-> Exit slot called...
+2024-06-11 20:50:48,844 - INFO - _save_settings - MainThread
+	-> Saving settings...
